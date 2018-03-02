@@ -1,0 +1,65 @@
+apply plugin: 'cipher.so'
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    flavorDimensions "default"
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "excercise.voen.securitytraining"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.config
+            minifyEnabled true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors{
+        staging{
+            buildConfigField "String", "BASE_URL", '"https://staging.example.com"'
+        }
+        production{
+            buildConfigField "String", "BASE_URL", '"https://example.com"'
+        }
+    }
+}
+
+cipher.so {
+    keys {
+        certificate {
+            value = 'abcdefghijklmnopqrstuvwxyz'
+        }
+        httpsKey {
+            value = 'abcdefghijklmnopqrstuvwxyz'
+        }
+        securedEnpoint {
+            value = "https://example.com"
+        }
+        googleKey {
+            value = 'AIzablablalal1234'
+        }
+    }
+    encryptSeed = 'SGVsbG9TZWNyZXRLZXk=' //Secret key used for encryption
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.scottyab:secure-preferences-lib:0.1.4'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
